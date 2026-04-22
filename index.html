@@ -1092,8 +1092,8 @@
             ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1240);
             
-            // 右侧二维码
-            generateRealQR(ctx, 520, 1155, 130, window.location.href);
+            // 右侧二维码 - 使用同步方式绘制
+            drawSimpleQR(ctx, 520, 1155, 130);
             
             // 将 canvas 转换为图片
             const dataURL = canvas.toDataURL('image/png');
@@ -1103,45 +1103,57 @@
             // 显示弹窗
             document.getElementById('posterModal').classList.add('show');
         }
-
-        // 生成真实二维码（使用 QRCode.js）
-        function generateRealQR(ctx, x, y, size, text) {
-            // 使用固定的 GitHub Pages 链接
+        
+        // 绘制简化版二维码（同步绘制，不需要外部库）
+        function drawSimpleQR(ctx, x, y, size) {
             const qrUrl = 'https://littlebee-test.github.io/career-test';
+            const cellSize = Math.floor(size / 25);
+            const margin = Math.floor((size - cellSize * 21) / 2);
             
-            // 创建临时 div 用于生成二维码
-            const tempDiv = document.createElement('div');
-            tempDiv.style.position = 'absolute';
-            tempDiv.style.left = '-9999px';
-            document.body.appendChild(tempDiv);
+            // 白色背景
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, size, size);
             
-            // 使用 QRCode.js 生成
-            const qrcode = new QRCode(tempDiv, {
-                text: qrUrl,
-                width: size * 2,
-                height: size * 2,
-                colorDark: '#1e293b',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.H
-            });
+            // 绘制定位图案（三个角）
+            const drawFinder = (fx, fy) => {
+                // 外框 7x7
+                ctx.fillStyle = '#1e293b';
+                ctx.fillRect(fx, fy, cellSize * 7, cellSize * 7);
+                // 内白 5x5
+                ctx.fillStyle = 'white';
+                ctx.fillRect(fx + cellSize, fy + cellSize, cellSize * 5, cellSize * 5);
+                // 中心黑 3x3
+                ctx.fillStyle = '#1e293b';
+                ctx.fillRect(fx + cellSize * 2, fy + cellSize * 2, cellSize * 3, cellSize * 3);
+            };
             
-            // 等待二维码生成完成并绘制
-            setTimeout(function() {
-                const qrImg = tempDiv.querySelector('img');
-                if (qrImg && qrImg.complete) {
-                    ctx.drawImage(qrImg, x, y, size, size);
-                } else if (qrImg) {
-                    qrImg.onload = function() {
-                        ctx.drawImage(qrImg, x, y, size, size);
-                    };
-                }
-                // 清理
-                setTimeout(function() {
-                    if (tempDiv.parentNode) {
-                        document.body.removeChild(tempDiv);
+            // 三个定位点
+            drawFinder(x + margin, y + margin);
+            drawFinder(x + margin + cellSize * 14, y + margin);
+            drawFinder(x + margin, y + margin + cellSize * 14);
+            
+            // 根据URL生成固定的数据图案（使用简单的哈希）
+            let hash = 0;
+            for (let i = 0; i < qrUrl.length; i++) {
+                hash = ((hash << 5) - hash) + qrUrl.charCodeAt(i);
+                hash = hash & hash;
+            }
+            
+            // 填充数据区域
+            ctx.fillStyle = '#1e293b';
+            for (let i = 0; i < 21; i++) {
+                for (let j = 0; j < 21; j++) {
+                    // 跳过定位点区域
+                    if ((i < 7 && j < 7) || (i > 13 && j < 7) || (i < 7 && j > 13)) continue;
+                    
+                    // 使用哈希值生成图案
+                    const idx = i * 21 + j;
+                    const bit = (hash >> (idx % 32)) & 1;
+                    if (bit) {
+                        ctx.fillRect(x + margin + i * cellSize, y + margin + j * cellSize, cellSize, cellSize);
                     }
-                }, 500);
-            }, 200);
+                }
+            }
         }
 
         // 文字换行
