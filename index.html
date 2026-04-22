@@ -637,6 +637,32 @@
             display: none;
         }
         
+        .poster-wrapper {
+            position: relative;
+            width: 375px;
+            height: 600px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .poster-qr-container {
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+            width: 65px;
+            height: 65px;
+            background: white;
+            padding: 2px;
+            border-radius: 4px;
+        }
+        
+        .poster-qr-container img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
         .poster-tip {
             margin-top: 1rem;
             color: white;
@@ -746,11 +772,11 @@
     <div class="poster-modal" id="posterModal">
         <div class="poster-content">
             <div class="poster-close" id="posterClose">✕</div>
-            <canvas id="posterCanvas" width="750" height="1334" style="display:none;"></canvas>
-            <div class="poster-image-container" id="posterImageContainer">
-                <img id="posterImage" alt="测试结果海报">
+            <div class="poster-wrapper" id="posterWrapper">
+                <canvas id="posterCanvas" width="750" height="1200"></canvas>
+                <div class="poster-qr-container" id="posterQRContainer"></div>
             </div>
-            <div class="poster-tip">👆 长按上方海报图片保存到相册</div>
+            <div class="poster-tip">👆 长按上方海报保存到相册</div>
         </div>
     </div>
 
@@ -1118,85 +1144,55 @@
             ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1240);
             
-            // 右侧二维码 - 使用 QRCode.js 生成真实二维码
-            generateRealQR(ctx, 520, 1155, 130, function() {
-                // 二维码生成完成后，转换 canvas 为图片
-                console.log('开始转换 canvas 为图片');
-                const dataURL = canvas.toDataURL('image/png');
-                console.log('图片已生成，长度：', dataURL.length);
-                
-                const posterImage = document.getElementById('posterImage');
-                if (!posterImage) {
-                    console.log('错误：找不到 posterImage 元素');
-                    return;
-                }
-                
-                posterImage.src = dataURL;
-                console.log('图片已设置到 img 标签');
-                
-                // 显示弹窗
-                const posterModal = document.getElementById('posterModal');
-                if (!posterModal) {
-                    console.log('错误：找不到 posterModal 元素');
-                    return;
-                }
-                
-                posterModal.classList.add('show');
-                console.log('弹窗已显示');
-            });
+            // 右侧二维码区域（先留白，后面叠加真实二维码）
+            ctx.fillStyle = 'white';
+            ctx.fillRect(520, 1155, 130, 130);
+            
+            // 转换 canvas 为图片
+            console.log('开始转换 canvas 为图片');
+            const dataURL = canvas.toDataURL('image/png');
+            
+            // 创建完整海报（canvas + 二维码）
+            createFinalPoster(dataURL, currentResultData);
         }
         
-        // 生成真实二维码（使用 QRCode.js）
-        function generateRealQR(ctx, x, y, size, callback) {
+        // 创建最终海报（canvas图片 + 真实二维码）
+        function createFinalPoster(canvasDataURL, resultData) {
+            const wrapper = document.getElementById('posterWrapper');
+            const qrContainer = document.getElementById('posterQRContainer');
+            
+            // 清空之前的内容
+            qrContainer.innerHTML = '';
+            
+            // 设置背景图片
+            wrapper.style.backgroundImage = 'url(' + canvasDataURL + ')';
+            wrapper.style.backgroundSize = 'contain';
+            wrapper.style.backgroundRepeat = 'no-repeat';
+            wrapper.style.width = '375px';
+            wrapper.style.height = '600px';
+            wrapper.style.position = 'relative';
+            
+            // 生成真实二维码
             const qrUrl = 'https://littlebee-test.github.io/career-test';
-            
-            // 创建临时 div 用于生成二维码
-            const tempDiv = document.createElement('div');
-            tempDiv.style.position = 'absolute';
-            tempDiv.style.left = '-9999px';
-            document.body.appendChild(tempDiv);
-            
-            // 使用 QRCode.js 生成
-            const qrcode = new QRCode(tempDiv, {
+            new QRCode(qrContainer, {
                 text: qrUrl,
-                width: size,
-                height: size,
+                width: 130,
+                height: 130,
                 colorDark: '#1e293b',
                 colorLight: '#ffffff',
                 correctLevel: QRCode.CorrectLevel.H
             });
             
-            // 等待二维码生成完成
-            setTimeout(function() {
-                const qrImg = tempDiv.querySelector('img');
-                if (qrImg) {
-                    if (qrImg.complete) {
-                        ctx.drawImage(qrImg, x, y, size, size);
-                        callback();
-                    } else {
-                        qrImg.onload = function() {
-                            ctx.drawImage(qrImg, x, y, size, size);
-                            callback();
-                        };
-                    }
-                } else {
-                    // 如果生成失败，绘制占位符
-                    ctx.fillStyle = '#f3f4f6';
-                    ctx.fillRect(x, y, size, size);
-                    ctx.fillStyle = '#9ca3af';
-                    ctx.font = '14px sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('二维码', x + size/2, y + size/2);
-                    callback();
-                }
-                
-                // 清理
-                setTimeout(function() {
-                    if (tempDiv.parentNode) {
-                        document.body.removeChild(tempDiv);
-                    }
-                }, 500);
-            }, 300);
+            // 设置二维码位置（对应canvas中的位置）
+            qrContainer.style.position = 'absolute';
+            qrContainer.style.right = '25px';
+            qrContainer.style.bottom = '25px';
+            qrContainer.style.width = '65px';
+            qrContainer.style.height = '65px';
+            
+            // 显示弹窗
+            document.getElementById('posterModal').classList.add('show');
+            console.log('弹窗已显示');
         }
 
         // 文字换行
