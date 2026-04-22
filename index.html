@@ -727,7 +727,8 @@
         
         <div class="share-section">
             <button class="job-btn" id="jobBtn">🔍 查看自己的岗位</button>
-            <button class="poster-btn" id="posterBtn">📤 分享给其他求职er</button>
+            <button class="share-btn" id="shareBtn">📤 分享给其他求职er</button>
+            <button class="poster-btn" id="posterBtn">🖼️ 生成结果海报</button>
             <a href="#" class="restart-link" id="restartLink">重新测试</a>
         </div>
         
@@ -1070,17 +1071,17 @@
             ctx.lineTo(650, 630);
             ctx.stroke();
             
-            // 性格特征
+            // 人格特征
             ctx.fillStyle = '#64748b';
             ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.textAlign = 'left';
             wrapText(ctx, currentResultData.desc, 100, 690, 550, 45);
             
-            // 核心梗
+            // 职场宣言
             const memeY = 850;
             ctx.fillStyle = '#d97706';
             ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('💡 核心梗', 100, memeY);
+            ctx.fillText('💼 职场宣言', 100, memeY);
             ctx.fillStyle = '#64748b';
             ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.fillText(currentResultData.meme, 100, memeY + 50);
@@ -1218,9 +1219,15 @@
         function updateShareCard(type, match) {
             currentResult = { type: type, match: match };
             
+            // 使用固定的 GitHub Pages 链接（不带参数，避免缓存问题）
+            const shareUrl = 'https://littlebee-test.github.io/career-test';
+            
             // 更新 meta 标签（用于微信分享）
             const desc = '我的职场人格是【' + type + '】，' + match + '！16种职场归宿，你的命中注定是？';
             document.querySelector('meta[name="description"]').setAttribute('content', desc);
+            
+            // 更新标题
+            document.title = '我的职场人格是【' + type + '】- 大学生职场人格测试';
             
             // 尝试调用微信 JS-SDK
             if (typeof wx !== 'undefined' && wx.ready) {
@@ -1228,36 +1235,42 @@
                     wx.updateAppMessageShareData({
                         title: '我的职场人格是【' + type + '】',
                         desc: match + '，快来测测你的职场归宿！',
-                        link: window.location.href,
+                        link: shareUrl,
                         imgUrl: 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png',
-                        success: function() {}
+                        success: function() {
+                            console.log('微信分享配置成功');
+                        }
                     });
                     wx.updateTimelineShareData({
                         title: '我的职场人格是【' + type + '】-' + match,
-                        link: window.location.href,
+                        link: shareUrl,
                         imgUrl: 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png',
-                        success: function() {}
+                        success: function() {
+                            console.log('朋友圈分享配置成功');
+                        }
                     });
                 });
             }
+            
+            console.log('分享卡片已更新:', { type, match, url: shareUrl });
         }
         
         // 分享按钮
         document.getElementById('shareBtn').addEventListener('click', function() {
             const type = document.getElementById('resultType').textContent;
             const match = document.getElementById('resultMatch').textContent;
-            const text = '我的职场人格是【' + type + '】，' + match + '！快来测测你的吧~';
+            const text = '我的职场人格是【' + type + '】，' + match + '！16种职场归宿，你的命中注定是？';
             
             // 调用微信分享（如果在微信内）
-            if (typeof wx !== 'undefined') {
+            if (/MicroMessenger/i.test(navigator.userAgent)) {
                 // 显示引导提示
                 showShareGuide();
             } else if (navigator.share) {
-                navigator.share({ title: '大学生职场人格测试', text: text, url: window.location.href });
+                navigator.share({ title: '我的职场人格是【' + type + '】', text: text, url: 'https://littlebee-test.github.io/career-test' });
             } else {
                 // 复制到剪贴板
                 const input = document.createElement('input');
-                input.value = text + ' ' + window.location.href;
+                input.value = text + ' https://littlebee-test.github.io/career-test';
                 document.body.appendChild(input);
                 input.select();
                 document.execCommand('copy');
