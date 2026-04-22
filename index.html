@@ -994,24 +994,23 @@
             ctx.font = '26px -apple-system, BlinkMacSystemFont, sans-serif';
             wrapText(ctx, currentResultData.unsuitable, 100, unsuitableY + 45, 550, 40);
             
-            // 底部区域 - 直接显示访问链接
+            // 底部二维码区域
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.beginPath();
             ctx.roundRect(50, 1140, 650, 160, 20);
             ctx.fill();
             
-            // 绘制链接文字
+            // 左侧文案
             ctx.fillStyle = '#1e293b';
             ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText('长按识别二维码或访问链接', 375, 1190);
+            ctx.textAlign = 'left';
+            ctx.fillText('扫码测试你的职场人格', 80, 1200);
             
-            // 绘制链接地址
-            ctx.fillStyle = '#d97706';
-            ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('littlebee-test.github.io/career-test', 375, 1240);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1240);
             
-            // 生成真实二维码
+            // 右侧二维码
             generateRealQR(ctx, 520, 1155, 130, window.location.href);
             
             // 显示弹窗
