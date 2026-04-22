@@ -608,7 +608,7 @@
         <div class="poster-content">
             <div class="poster-close" id="posterClose">✕</div>
             <canvas id="posterCanvas" width="750" height="1334"></canvas>
-            <div class="poster-tip">长按保存图片，分享给朋友</div>
+            <div class="poster-tip">点击「保存图片」按钮，或长按海报保存</div>
             <button class="save-btn" id="saveBtn">保存图片到相册</button>
         </div>
     </div>
@@ -855,23 +855,46 @@
             // 将 canvas 转为图片数据
             const dataURL = canvas.toDataURL('image/png');
             
-            // 尝试使用微信下载
-            if (typeof wx !== 'undefined' && wx.downloadImage) {
-                wx.downloadImage({
-                    url: dataURL,
-                    success: function() {
-                        alert('图片已保存到相册');
-                    },
-                    fail: function() {
-                        // 失败时尝试自动下载
-                        downloadImage(dataURL);
-                    }
-                });
+            // 在微信环境中，提示用户长按保存
+            if (/MicroMessenger/i.test(navigator.userAgent)) {
+                // 创建一个新的图片元素用于长按保存
+                showSaveGuide(dataURL);
             } else {
                 // 非微信环境，直接下载
                 downloadImage(dataURL);
             }
         });
+        
+        // 显示保存引导
+        function showSaveGuide(dataURL) {
+            // 创建全屏引导层
+            const guide = document.createElement('div');
+            guide.id = 'saveGuide';
+            guide.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;';
+            
+            // 创建可长按保存的图片
+            const img = document.createElement('img');
+            img.src = dataURL;
+            img.style.cssText = 'max-width:80%;max-height:60%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,0.5);';
+            
+            // 提示文字
+            const tip = document.createElement('div');
+            tip.style.cssText = 'color:white;margin-top:30px;font-size:18px;text-align:center;line-height:1.6;';
+            tip.innerHTML = '<div style="font-size:24px;margin-bottom:10px;">👆 长按上方图片</div><div>选择「保存图片」到相册</div>';
+            
+            // 关闭按钮
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = '关闭';
+            closeBtn.style.cssText = 'margin-top:30px;padding:12px 40px;background:white;color:#333;border:none;border-radius:25px;font-size:16px;cursor:pointer;';
+            closeBtn.onclick = function() {
+                document.body.removeChild(guide);
+            };
+            
+            guide.appendChild(img);
+            guide.appendChild(tip);
+            guide.appendChild(closeBtn);
+            document.body.appendChild(guide);
+        }
         
         // 下载图片函数
         function downloadImage(dataURL) {
@@ -884,11 +907,6 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
-            // 微信环境提示
-            if (/MicroMessenger/i.test(navigator.userAgent)) {
-                alert('如果下载失败，请长按海报图片保存');
-            }
         }
 
         // 生成海报图片
