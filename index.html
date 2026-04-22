@@ -972,6 +972,8 @@
 
         // 生成海报
         document.getElementById('posterBtn').addEventListener('click', function() {
+            console.log('海报按钮被点击');
+            console.log('currentResultData:', currentResultData);
             generatePoster();
         });
 
@@ -995,10 +997,25 @@
 
         // 生成海报图片
         function generatePoster() {
-            if (!currentResultData) return;
+            console.log('generatePoster 被调用');
+            if (!currentResultData) {
+                console.log('错误：currentResultData 为空');
+                return;
+            }
+            
+            console.log('开始生成海报，数据：', currentResultData);
             
             const canvas = document.getElementById('posterCanvas');
+            if (!canvas) {
+                console.log('错误：找不到 canvas 元素');
+                return;
+            }
+            
             const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.log('错误：无法获取 canvas context');
+                return;
+            }
             
             // 背景渐变（黄色系）
             const gradient = ctx.createLinearGradient(0, 0, 750, 1334);
@@ -1096,12 +1113,28 @@
             drawSimpleQR(ctx, 520, 1155, 130);
             
             // 将 canvas 转换为图片
+            console.log('开始转换 canvas 为图片');
             const dataURL = canvas.toDataURL('image/png');
+            console.log('图片已生成，长度：', dataURL.length);
+            
             const posterImage = document.getElementById('posterImage');
+            if (!posterImage) {
+                console.log('错误：找不到 posterImage 元素');
+                return;
+            }
+            
             posterImage.src = dataURL;
+            console.log('图片已设置到 img 标签');
             
             // 显示弹窗
-            document.getElementById('posterModal').classList.add('show');
+            const posterModal = document.getElementById('posterModal');
+            if (!posterModal) {
+                console.log('错误：找不到 posterModal 元素');
+                return;
+            }
+            
+            posterModal.classList.add('show');
+            console.log('弹窗已显示');
         }
         
         // 绘制简化版二维码（同步绘制，不需要外部库）
@@ -1246,6 +1279,7 @@
         // 重新测试
         document.getElementById('restartLink').addEventListener('click', function(e) {
             e.preventDefault();
+            console.log('重新测试按钮被点击');
             currentQuestion = 0;
             answers = [];
             typeScores = {};
