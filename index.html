@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>大学生职场人格测试</title>
+    <meta name="description" content="16种职场归宿，你的命中注定是？快来测测你的职场人格！">
+    <meta property="og:title" content="大学生职场人格测试">
+    <meta property="og:description" content="16种职场归宿，你的命中注定是？">
+    <meta property="og:image" content="https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        :root {
+            --primary: #f59e0b;
+            --primary-dark: #d97706;
+            --secondary: #fbbf24;
+            --accent: #f97316;
+            --bg: #fffbeb;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #fde68a;
+        }
+        
+        html { font-size: 16px; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .page {
+            min-height: 100vh;
+            display: none;
+        }
+        
+        .page.show { display: flex; flex-direction: column; }
+        
+        /* 首页 */
+        .home-page {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .home-content {
+            max-width: 400px;
+        }
+        
+        .home-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .home-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+        
+        .home-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2.5rem;
+        }
+        
+        .start-btn {
+            background: white;
+            color: #d97706;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 280px;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .home-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.875rem;
+        }
+        
+        /* 答题页 */
+        .test-page { background: var(--bg); }
+        
+        .test-header {
+            background: white;
+            padding: 1rem 1.25rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .test-content {
+            flex: 1;
+            padding: 1.5rem 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 1rem;
+        }
+        
+        .question-number {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .question-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .option-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .option-item.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(236,72,153,0.08));
+        }
+        
+        .option-radio {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .option-item.selected .option-radio {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+        
+        .option-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            display: none;
+        }
+        
+        .option-item.selected .option-radio::after { display: block; }
+        
+        .test-nav {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: white;
+            border-top: 1px solid var(--border);
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 0.875rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .nav-btn.prev {
+            background: var(--bg);
+            color: var(--text-secondary);
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+        }
+        
+        /* 结果页 */
+        .result-page { background: var(--bg); }
+        
+        .result-header {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .result-emoji {
+            font-size: 4rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .result-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.25rem;
+        }
+        
+        .result-type {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fffbeb;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .result-match {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .result-content {
+            padding: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .result-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .result-desc {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .destiny-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .destiny-tag {
+            background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(249,115,22,0.15));
+            color: #d97706;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+        
+        .unsuitable {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+        
+        .job-btn, .poster-btn {
+            width: 100%;
+            padding: 0.875rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 0.75rem;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .job-btn {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .poster-btn {
+            background: white;
+            color: #d97706;
+            border: 2px solid #fbbf24;
+        }
+        
+        .share-section {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .share-btn {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 1rem;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .restart-link {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-block;
+            padding: 0.5rem;
+        }
+        
+        .disclaimer {
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        
+        /* 加载页 */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.95);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .loading.show { display: flex; }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: #f59e0b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* 海报弹窗 */
+        .poster-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .poster-modal.show { display: flex; }
+        
+        .poster-content {
+            position: relative;
+            max-width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .poster-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        #posterCanvas {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .poster-tip {
+            margin-top: 1rem;
+            color: white;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        
+        .save-btn {
+            margin-top: 1rem;
+            background: white;
+            color: #d97706;
+            border: none;
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 375px) {
+            html { font-size: 14px; }
+            .home-title { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载页 -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">正在分析你的人格...</div>
+    </div>
+
+    <!-- 首页 -->
+    <div class="page home-page show" id="homePage">
+        <div class="home-content">
+            <div class="home-icon">🎓</div>
+            <h1 class="home-title">大学生职场人格测试</h1>
+            <p class="home-subtitle">16种职场归宿，你的命中注定是？</p>
+            <button class="start-btn" id="startBtn">开始测试</button>
+            <div class="home-stats">
+                <span>📋 20道题</span>
+                <span>⏱️ 约3分钟</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 答题页 -->
+    <div class="page test-page" id="testPage">
+        <div class="test-header">
+            <div class="progress-info">
+                <span>进度 <span id="currentNum">0</span>/<span id="totalNum">20</span></span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="test-content">
+            <div class="question-card">
+                <div class="question-number">QUESTION <span id="qNumber">1</span></div>
+                <div class="question-text" id="questionText">加载中...</div>
+            </div>
+            
+            <div class="options-list" id="optionsContainer"></div>
+        </div>
+        
+        <div class="test-nav">
+            <button class="nav-btn prev" id="prevBtn">上一题</button>
+            <button class="nav-btn next" id="nextBtn" disabled>下一题</button>
+        </div>
+    </div>
+
+    <!-- 结果页 -->
+    <div class="page result-page" id="resultPage">
+        <div class="result-header">
+            <div class="result-emoji" id="resultEmoji">🎯</div>
+            <div class="result-label">你的职场归宿</div>
+            <div class="result-type" id="resultType">加载中...</div>
+            <div class="result-match" id="resultMatch">匹配度 0%</div>
+        </div>
+        
+        <div class="result-content">
+            <div class="result-card">
+                <div class="result-card-title">📝 性格特征</div>
+                <div class="result-desc" id="resultDesc">...</div>
+                <div class="destiny-tags" id="destinyTags"></div>
+            </div>
+            
+            <div class="result-card">
+                <div class="result-card-title">💡 核心梗</div>
+                <div class="result-desc" id="resultMeme">...</div>
+            </div>
+            
+            <div class="result-card">
+                <div class="result-card-title">⚠️ 不适合</div>
+                <div class="unsuitable" id="resultUnsuitable">...</div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-card-title">🎯 互动</div>
+                <button class="job-btn" id="jobBtn">查看适合自己的岗位</button>
+                <button class="poster-btn" id="posterBtn">生成结果海报</button>
+            </div>
+        </div>
+        
+        <div class="share-section">
+            <button class="share-btn" id="shareBtn">分享给朋友</button>
+            <a href="#" class="restart-link" id="restartLink">重新测试</a>
+        </div>
+        
+        <div class="disclaimer">本测试仅供娱乐，结果不代表真实职业建议</div>
+    </div>
+
+    <!-- 海报弹窗 -->
+    <div class="poster-modal" id="posterModal">
+        <div class="poster-content">
+            <div class="poster-close" id="posterClose">✕</div>
+            <canvas id="posterCanvas" width="750" height="1334"></canvas>
+            <div class="poster-tip">长按保存图片，分享给朋友</div>
+            <button class="save-btn" id="saveBtn">保存图片到相册</button>
+        </div>
+    </div>
+
+    <script>
+        // 题目数据
+        const questions = [
+            { text: "毕业后，你最向往的工作状态是？", options: [{ text: "稳定编制，朝九晚五", type: "体制内" }, { text: "大厂高薪，快速晋升", type: "大厂" }, { text: "自由职业，自己掌控时间", type: "自由" }, { text: "创业当老板，自己说了算", type: "创业" }] },
+            { text: "面对考试/面试，你的心态通常是？", options: [{ text: "必须一次过，压力山大", type: "焦虑型" }, { text: "尽力就好，顺其自然", type: "佛系" }, { text: "考不过就再来，心态稳", type: "稳定" }, { text: "不太在意结果", type: "摆烂" }] },
+            { text: "你觉得自己最大的优点是？", options: [{ text: "执行力强，做事靠谱", type: "螺丝钉" }, { text: "创意多，想法独特", type: "网红" }, { text: "情商高，会处理关系", type: "软饭" }, { text: "抗压能力强，能吃苦", type: "二战" }] },
+            { text: "如果失业了，你会？", options: [{ text: "立刻投简历，必须尽快找到工作", type: "焦虑型" }, { text: "先休息一段时间再说", type: "摆烂" }, { text: "尝试做副业或创业", type: "下海" }, { text: "靠存款/家里支持，不着急", type: "啃老" }] },
+            { text: "你理想的工作环境是？", options: [{ text: "大公司，制度完善，流程规范", type: "大厂" }, { text: "小公司，灵活自由，扁平管理", type: "野生" }, { text: "在家办公，不用通勤", type: "自由" }, { text: "无所谓，能赚钱就行", type: "路人" }] },
+            { text: "对于'加班'，你的态度是？", options: [{ text: "可以接受，为了晋升值得", type: "卷王" }, { text: "偶尔可以，长期不行", type: "螺丝钉" }, { text: "坚决不加班，到点就走", type: "反骨" }, { text: "看心情，想加就加", type: "随性" }] },
+            { text: "你的社交状态更接近？", options: [{ text: "社交达人，朋友遍天下", type: "网红" }, { text: "有几个知心好友就够了", type: "稳定" }, { text: "社恐，能躲就躲", type: "玻璃心" }, { text: "看场合，该社交时也能上", type: "软饭" }] },
+            { text: "如果有一笔意外之财，你会？", options: [{ text: "存起来，求稳", type: "体制内" }, { text: "投资或创业，钱生钱", type: "老板" }, { text: "花掉，享受当下", type: "摆烂" }, { text: "先放着，慢慢想", type: "路人" }] },
+            { text: "你对'稳定'的理解是？", options: [{ text: "铁饭碗，一辈子不愁", type: "体制内" }, { text: "有技能傍身，去哪都能活", type: "自由" }, { text: "存款够多，心里不慌", type: "锦鲤" }, { text: "没有真正的稳定", type: "野生" }] },
+            { text: "面对领导的批评，你会？", options: [{ text: "虚心接受，努力改进", type: "螺丝钉" }, { text: "表面接受，内心不服", type: "反骨" }, { text: "很难受，可能会哭", type: "玻璃心" }, { text: "无所谓，左耳进右耳出", type: "摆烂" }] },
+            { text: "你觉得自己更适合？", options: [{ text: "执行者，把事做好", type: "螺丝钉" }, { text: "策划者，出主意", type: "网红" }, { text: "协调者，处理人际关系", type: "软饭" }, { text: "决策者，拍板定方向", type: "老板" }] },
+            { text: "如果可以选择，你希望？", options: [{ text: "工作稳定，生活规律", type: "体制内" }, { text: "工作自由，不受束缚", type: "自由" }, { text: "工作有趣，有成就感", type: "网红" }, { text: "不用工作，躺平最好", type: "无业" }] },
+            { text: "你对未来的规划是？", options: [{ text: "有清晰的3-5年计划", type: "卷王" }, { text: "有个大致方向，细节随缘", type: "路人" }, { text: "走一步看一步", type: "野生" }, { text: "不想规划，活在当下", type: "摆烂" }] },
+            { text: "在团队中，你通常扮演？", options: [{ text: "核心骨干，承担主要工作", type: "螺丝钉" }, { text: "气氛担当，活跃团队", type: "网红" }, { text: "和事佬，调解矛盾", type: "软饭" }, { text: "边缘人，默默做事", type: "玻璃心" }] },
+            { text: "如果工作让你很痛苦，你会？", options: [{ text: "忍着，为了生活没办法", type: "老实" }, { text: "骑驴找马，找到下家就撤", type: "螺丝钉" }, { text: "立刻辞职，身心健康最重要", type: "反骨" }, { text: "摆烂，混一天是一天", type: "无业" }] },
+            { text: "你觉得自己最大的缺点是？", options: [{ text: "太佛系，缺乏野心", type: "佛系" }, { text: "太敏感，容易受伤", type: "玻璃心" }, { text: "太随性，不够坚持", type: "路人" }, { text: "没什么缺点", type: "锦鲤" }] },
+            { text: "对于'成功'的定义，你更认同？", options: [{ text: "事业有成，财务自由", type: "老板" }, { text: "工作稳定，家庭幸福", type: "体制内" }, { text: "做自己喜欢的事", type: "自由" }, { text: "开心就好，无所谓成功", type: "摆烂" }] },
+            { text: "你更喜欢哪种赚钱方式？", options: [{ text: "固定工资，按月发放", type: "体制内" }, { text: "绩效提成，多劳多得", type: "大厂" }, { text: "自己做生意，盈亏自负", type: "下海" }, { text: "被动收入，躺着赚钱", type: "锦鲤" }] },
+            { text: "面对竞争，你的态度是？", options: [{ text: "全力以赴，必须赢", type: "卷王" }, { text: "尽力而为，接受失败", type: "二战" }, { text: "不想竞争，太累了", type: "佛系" }, { text: "找其他出路，不硬刚", type: "野生" }] },
+            { text: "用一句话形容自己，你会说？", options: [{ text: "靠谱老实人", type: "老实" }, { text: "有趣的灵魂", type: "网红" }, { text: "随遇而安", type: "街头" }, { text: "我也不知道我是谁", type: "路人" }] }
+        ];
+
+        // 人格类型定义
+        const personalityTypes = {
+            '体制内': { name: '体制天选锦鲤', emoji: '🐟', desc: '目标极纯，只认编制，心态稳，运气好。考一次上一次，面试必过，天生吃公家饭。', tags: ['上岸稳赢', '体制内天花板'], meme: '考公就像回家一样自然', unsuitable: '大厂、拧螺丝、下海、无业' },
+            '二战': { name: '考公二战战神', emoji: '⚔️', desc: '执念深、能吃苦、越挫越勇。一战差一分，二战必上岸，家里蹲备考也不摆烂。', tags: ['体制预备役', '屡败屡战卷王'], meme: '这次一定行', unsuitable: '傍大款、啃老、自由散漫' },
+            '大厂': { name: '大厂标准螺丝钉', emoji: '🔩', desc: '执行力强、耐加班、听话好用。进可PPT，退可改需求，命里注定当优秀工具人。', tags: ['互联网大厂', '标准打工人'], meme: '今天的班就加到这里', unsuitable: '体制、无业、啃老' },
+            '下海': { name: '下海搞钱野生仔', emoji: '🌊', desc: '胆子大、脸皮厚、脑子活。不上班也能赚，哪里有钱去哪里。', tags: ['做生意', '摆摊', '搞副业', '闯江湖'], meme: '风浪越大鱼越贵', unsuitable: '体制、稳定岗、玻璃心' },
+            '老板': { name: '天生老板命格', emoji: '👑', desc: '有野心、控场强、不服管。打工是不可能打工的，迟早自己当老板。', tags: ['创业', '带队', '当领导', '自己说了算'], meme: '我要让所有人给我打工', unsuitable: '拧螺丝、被人管、长期摸鱼' },
+            '网红': { name: '颜值流量网红命', emoji: '📱', desc: '爱表现、有网感、情绪外放。随便发点啥都有人看，天生吃流量饭。', tags: ['自媒体', '博主', '直播', '靠脸/才华吃饭'], meme: '这也能火？', unsuitable: '体制、闷头干活、低调做人' },
+            '自由': { name: '自由职业神仙命', emoji: '🧚', desc: '讨厌打卡、喜欢独处、做事看心情。不用上班，睡到自然醒，钱够花就行。', tags: ['设计', '写作', '插画', '接单过日子'], meme: '自由职业，自由但不职业', unsuitable: '大厂、体制、高强度内卷' },
+            '街头': { name: '街头生存小天才', emoji: '🎪', desc: '随遇而安、不被束缚、能屈能伸。今天赚今天花，明天不赚也能活。', tags: ['兼职', '日结', '灵活就业', '随缘搞钱'], meme: '三百六十行，行行出状元', unsuitable: '长期稳定、坐班打卡' },
+            '无业': { name: '无业游民天花板', emoji: '🛋️', desc: '极度佛系、无欲无求、快乐第一。上班多累啊，躺着看看世界就挺好。', tags: ['长期待业', '快乐躺平', '不上班也不焦虑'], meme: '上班是为了不上班', unsuitable: '内卷、奋斗、当领导' },
+            '啃老': { name: '专业啃老摆烂人', emoji: '🏠', desc: '不想努力、不想社交、不想负责。不是找不到工作，是根本不想找。', tags: ['家里蹲', '靠父母', '快乐废物'], meme: '爸妈的就是我的', unsuitable: '奋斗、下海、当老板' },
+            '软饭': { name: '软饭硬吃傍大款', emoji: '🍚', desc: '情商高、会撒娇、懂示弱、运气好。努力没用，找对人直接少走三十年弯路。', tags: ['靠另一半', '找长期饭票', '躺赢人生'], meme: '少奋斗三十年', unsuitable: '内卷、创业、自己扛压力' },
+            '锦鲤': { name: '躺赢人生锦鲤命', emoji: '🎏', desc: '淡定、随和、不用努力也过得好。人生主线任务：活着就行。', tags: ['家里有矿', '继承家业', '中奖体质'], meme: '运气也是实力的一部分', unsuitable: '吃苦、拧螺丝、焦虑内耗' },
+            '老实': { name: '老实本分打工人', emoji: '🐂', desc: '老实、靠谱、不折腾、不冒险。不求大富大贵，只求准时下班。', tags: ['普通公司', '安稳上班', '踏实过日子'], meme: '老实人做错了什么', unsuitable: '创业、网红、高风险搞钱' },
+            '玻璃心': { name: '情绪脆弱玻璃心', emoji: '💔', desc: '敏感、心软、怕批评、容易emo。上班可以，骂我不行。', tags: ['轻松文职', '简单工作', '不能受气'], meme: '我哭了，我装的', unsuitable: '大厂、销售、下海、创业' },
+            '反骨': { name: '叛逆反骨自由魂', emoji: '🦅', desc: '讨厌规则、拒绝束缚、爱自由到极致。世界那么大，我想不上班到处耍。', tags: ['旅居', '流浪', '数字游民', '不被定义'], meme: '天生反骨', unsuitable: '体制、大厂、长期固定工作' },
+            '路人': { name: '全能百搭路人命', emoji: '🚶', desc: '没执念、没野心、没脾气。体制也行、大厂也行、摆烂也行。', tags: ['干啥都行', '干啥都一般', '随缘人生'], meme: '我就是个路人甲', unsuitable: '所有，也不特别适合任何' }
+        };
+
+        // 类型权重映射
+        const typeWeights = {
+            '体制内': ['体制内', '锦鲤', '老实'], '焦虑型': ['二战', '玻璃心', '卷王'], '佛系': ['无业', '路人', '锦鲤'], '摆烂': ['啃老', '无业', '路人'], '螺丝钉': ['大厂', '老实', '体制内'], '卷王': ['大厂', '老板', '二战'], '网红': ['网红', '自由', '反骨'], '软饭': ['软饭', '锦鲤', '路人'], '大厂': ['大厂', '螺丝钉', '卷王'], '自由': ['自由', '反骨', '街头'], '创业': ['老板', '下海', '反骨'], '野生': ['下海', '街头', '自由'], '啃老': ['啃老', '无业', '锦鲤'], '二战': ['二战', '体制内', '卷王'], '老实': ['老实', '体制内', '大厂'], '玻璃心': ['玻璃心', '自由', '啃老'], '老板': ['老板', '下海', '网红'], '锦鲤': ['锦鲤', '软饭', '无业'], '街头': ['街头', '自由', '下海'], '无业': ['无业', '啃老', '锦鲤'], '反骨': ['反骨', '自由', '街头'], '随性': ['路人', '街头', '自由'], '稳定': ['体制内', '老实', '锦鲤']
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+        let typeScores = {};
+        let currentResultData = null;
+
+        // 页面切换函数
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+            document.getElementById(pageId).classList.add('show');
+            window.scrollTo(0, 0);
+        }
+
+        function showLoading() {
+            document.getElementById('loading').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('show');
+        }
+
+        // 开始测试
+        document.getElementById('startBtn').addEventListener('click', function() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('totalNum').textContent = questions.length;
+            showPage('testPage');
+            renderQuestion();
+        });
+
+        // 渲染题目
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('currentNum').textContent = currentQuestion + 1;
+            document.getElementById('qNumber').textContent = currentQuestion + 1;
+            document.getElementById('questionText').textContent = q.text;
+            
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+            
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const item = document.createElement('div');
+                item.className = 'option-item';
+                item.innerHTML = '<div class="option-radio"></div><span>' + opt.text + '</span>';
+                item.addEventListener('click', function() {
+                    selectOption(idx);
+                });
+                container.appendChild(item);
+            });
+            
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? '查看结果' : '下一题';
+        }
+
+        // 选择选项
+        function selectOption(idx) {
+            answers[currentQuestion] = idx;
+            
+            document.querySelectorAll('.option-item').forEach((item, i) => {
+                item.classList.toggle('selected', i === idx);
+            });
+            
+            document.getElementById('nextBtn').disabled = false;
+            
+            // 自动下一题
+            setTimeout(function() {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    renderQuestion();
+                } else {
+                    showResult();
+                }
+            }, 300);
+        }
+
+        // 上一题
+        document.getElementById('prevBtn').addEventListener('click', function() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        });
+
+        // 下一题
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        });
+
+        // 显示结果
+        function showResult() {
+            showLoading();
+            
+            // 初始化分数
+            typeScores = {};
+            Object.keys(personalityTypes).forEach(function(type) {
+                typeScores[type] = 0;
+            });
+            
+            // 计算分数
+            answers.forEach(function(answerIdx, qIdx) {
+                const selectedType = questions[qIdx].options[answerIdx].type;
+                const weights = typeWeights[selectedType] || [selectedType];
+                weights.forEach(function(type, index) {
+                    if (typeScores[type] !== undefined) {
+                        typeScores[type] += (3 - index) || 1;
+                    }
+                });
+            });
+            
+            // 找出最高分
+            let bestType = '';
+            let bestScore = -1;
+            for (let type in typeScores) {
+                if (typeScores[type] > bestScore) {
+                    bestScore = typeScores[type];
+                    bestType = type;
+                }
+            }
+            
+            const maxPossible = questions.length * 3;
+            const matchPercent = Math.min(98, Math.round((bestScore / maxPossible) * 100) + 60);
+            const result = personalityTypes[bestType];
+            
+            // 保存当前结果
+            currentResultData = {
+                type: bestType,
+                name: result.name,
+                emoji: result.emoji,
+                match: matchPercent,
+                desc: result.desc,
+                meme: result.meme,
+                unsuitable: result.unsuitable,
+                tags: result.tags
+            };
+            
+            // 填充结果
+            document.getElementById('resultEmoji').textContent = result.emoji;
+            document.getElementById('resultType').textContent = result.name;
+            document.getElementById('resultMatch').textContent = '匹配度 ' + matchPercent + '%';
+            document.getElementById('resultDesc').textContent = result.desc;
+            document.getElementById('resultMeme').textContent = result.meme;
+            document.getElementById('resultUnsuitable').textContent = result.unsuitable;
+            
+            // 更新分享卡片
+            updateShareCard(result.name, '匹配度 ' + matchPercent + '%');
+            
+            const tagsContainer = document.getElementById('destinyTags');
+            tagsContainer.innerHTML = '';
+            result.tags.forEach(function(tag) {
+                const span = document.createElement('span');
+                span.className = 'destiny-tag';
+                span.textContent = tag;
+                tagsContainer.appendChild(span);
+            });
+            
+            setTimeout(function() {
+                hideLoading();
+                showPage('resultPage');
+            }, 1500);
+        }
+
+        // 查看适合岗位
+        document.getElementById('jobBtn').addEventListener('click', function() {
+            window.location.href = 'https://wp.mifengs.com/163/page/bee/rn-college-employment-data/index.html';
+        });
+
+        // 生成海报
+        document.getElementById('posterBtn').addEventListener('click', function() {
+            generatePoster();
+        });
+
+        // 关闭海报
+        document.getElementById('posterClose').addEventListener('click', function() {
+            document.getElementById('posterModal').classList.remove('show');
+        });
+
+        // 保存图片
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            const canvas = document.getElementById('posterCanvas');
+            
+            // 将 canvas 转为图片数据
+            const dataURL = canvas.toDataURL('image/png');
+            
+            // 尝试使用微信下载
+            if (typeof wx !== 'undefined' && wx.downloadImage) {
+                wx.downloadImage({
+                    url: dataURL,
+                    success: function() {
+                        alert('图片已保存到相册');
+                    },
+                    fail: function() {
+                        // 失败时尝试自动下载
+                        downloadImage(dataURL);
+                    }
+                });
+            } else {
+                // 非微信环境，直接下载
+                downloadImage(dataURL);
+            }
+        });
+        
+        // 下载图片函数
+        function downloadImage(dataURL) {
+            // 创建临时链接
+            const link = document.createElement('a');
+            link.download = '我的职场人格测试结果.png';
+            link.href = dataURL;
+            
+            // 触发下载
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 微信环境提示
+            if (/MicroMessenger/i.test(navigator.userAgent)) {
+                alert('如果下载失败，请长按海报图片保存');
+            }
+        }
+
+        // 生成海报图片
+        function generatePoster() {
+            if (!currentResultData) return;
+            
+            const canvas = document.getElementById('posterCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 背景渐变（黄色系）
+            const gradient = ctx.createLinearGradient(0, 0, 750, 1334);
+            gradient.addColorStop(0, '#f59e0b');
+            gradient.addColorStop(1, '#f97316');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 750, 1334);
+            
+            // 装饰圆点
+            ctx.fillStyle = 'rgba(255,255,255,0.1)';
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * 750;
+                const y = Math.random() * 1334;
+                const r = Math.random() * 4 + 2;
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // 白色卡片
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.roundRect(50, 200, 650, 900, 30);
+            ctx.fill();
+            
+            // 标题
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 40px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('大学生职场人格测试', 375, 120);
+            
+            // Emoji
+            ctx.font = '120px sans-serif';
+            ctx.fillText(currentResultData.emoji, 375, 380);
+            
+            // 人格类型
+            ctx.fillStyle = '#d97706';
+            ctx.font = 'bold 56px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText(currentResultData.name, 375, 520);
+            
+            // 匹配度
+            ctx.fillStyle = '#f97316';
+            ctx.font = 'bold 40px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('匹配度 ' + currentResultData.match + '%', 375, 590);
+            
+            // 分隔线
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(100, 630);
+            ctx.lineTo(650, 630);
+            ctx.stroke();
+            
+            // 性格特征
+            ctx.fillStyle = '#64748b';
+            ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign = 'left';
+            wrapText(ctx, currentResultData.desc, 100, 690, 550, 45);
+            
+            // 核心梗
+            const memeY = 850;
+            ctx.fillStyle = '#d97706';
+            ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('💡 核心梗', 100, memeY);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText(currentResultData.meme, 100, memeY + 50);
+            
+            // 不适合
+            const unsuitableY = 980;
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('⚠️ 不适合', 100, unsuitableY);
+            ctx.fillStyle = '#92400e';
+            ctx.font = '26px -apple-system, BlinkMacSystemFont, sans-serif';
+            wrapText(ctx, currentResultData.unsuitable, 100, unsuitableY + 45, 550, 40);
+            
+            // 底部二维码区域
+            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            ctx.beginPath();
+            ctx.roundRect(50, 1140, 650, 160, 20);
+            ctx.fill();
+            
+            // 加载并绘制二维码
+            const qrImg = new Image();
+            qrImg.crossOrigin = 'anonymous';
+            qrImg.onload = function() {
+                // 绘制二维码（右侧）
+                ctx.drawImage(qrImg, 520, 1155, 130, 130);
+                
+                // 文字（左侧）
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('扫码测试你的职场人格', 80, 1200);
+                
+                ctx.fillStyle = '#64748b';
+                ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1240);
+            };
+            qrImg.src = 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776772673333_qrcode.png';
+            
+            // 显示弹窗
+            document.getElementById('posterModal').classList.add('show');
+        }
+
+        // 文字换行
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split('');
+            let line = '';
+            let testLine = '';
+            
+            for (let n = 0; n < words.length; n++) {
+                testLine = line + words[n];
+                const metrics = ctx.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    ctx.fillText(line, x, y);
+                    line = words[n];
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, y);
+        }
+
+        // 当前测试结果
+        let currentResult = null;
+        
+        // 更新分享卡片
+        function updateShareCard(type, match) {
+            currentResult = { type: type, match: match };
+            
+            // 更新 meta 标签（用于微信分享）
+            const desc = '我的职场人格是【' + type + '】，' + match + '！16种职场归宿，你的命中注定是？';
+            document.querySelector('meta[name="description"]').setAttribute('content', desc);
+            
+            // 尝试调用微信 JS-SDK
+            if (typeof wx !== 'undefined' && wx.ready) {
+                wx.ready(function() {
+                    wx.updateAppMessageShareData({
+                        title: '我的职场人格是【' + type + '】',
+                        desc: match + '，快来测测你的职场归宿！',
+                        link: window.location.href,
+                        imgUrl: 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png',
+                        success: function() {}
+                    });
+                    wx.updateTimelineShareData({
+                        title: '我的职场人格是【' + type + '】-' + match,
+                        link: window.location.href,
+                        imgUrl: 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png',
+                        success: function() {}
+                    });
+                });
+            }
+        }
+        
+        // 分享按钮
+        document.getElementById('shareBtn').addEventListener('click', function() {
+            const type = document.getElementById('resultType').textContent;
+            const match = document.getElementById('resultMatch').textContent;
+            const text = '我的职场人格是【' + type + '】，' + match + '！快来测测你的吧~';
+            
+            // 调用微信分享（如果在微信内）
+            if (typeof wx !== 'undefined') {
+                // 显示引导提示
+                showShareGuide();
+            } else if (navigator.share) {
+                navigator.share({ title: '大学生职场人格测试', text: text, url: window.location.href });
+            } else {
+                // 复制到剪贴板
+                const input = document.createElement('input');
+                input.value = text + ' ' + window.location.href;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                alert('结果已复制，快去分享给朋友吧！');
+            }
+        });
+        
+        // 显示分享引导
+        function showShareGuide() {
+            const guide = document.createElement('div');
+            guide.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:20%;color:white;';
+            guide.innerHTML = '<div style="font-size:1.5rem;margin-bottom:1rem;">👆 点击右上角分享</div><div style="font-size:1rem;opacity:0.8;">分享给好友或朋友圈</div><div style="margin-top:3rem;font-size:3rem;">☝️</div>';
+            guide.addEventListener('click', function() {
+                document.body.removeChild(guide);
+            });
+            document.body.appendChild(guide);
+        }
+
+        // 重新测试
+        document.getElementById('restartLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            currentQuestion = 0;
+            answers = [];
+            typeScores = {};
+            currentResultData = null;
+            showPage('homePage');
+        });
+    </script>
+</body>
+</html>
