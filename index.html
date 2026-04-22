@@ -10,6 +10,8 @@
     <meta property="og:title" content="大学生职场人格测试">
     <meta property="og:description" content="16种职场归宿，你的命中注定是？">
     <meta property="og:image" content="https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png">
+    <!-- 引入 QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
@@ -992,33 +994,56 @@
             ctx.font = '26px -apple-system, BlinkMacSystemFont, sans-serif';
             wrapText(ctx, currentResultData.unsuitable, 100, unsuitableY + 45, 550, 40);
             
-            // 底部二维码区域
+            // 底部区域 - 直接显示访问链接
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.beginPath();
             ctx.roundRect(50, 1140, 650, 160, 20);
             ctx.fill();
             
-            // 加载并绘制二维码
-            const qrImg = new Image();
-            qrImg.crossOrigin = 'anonymous';
-            qrImg.onload = function() {
-                // 绘制二维码（右侧）
-                ctx.drawImage(qrImg, 520, 1155, 130, 130);
-                
-                // 文字（左侧）
-                ctx.fillStyle = '#1e293b';
-                ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
-                ctx.textAlign = 'left';
-                ctx.fillText('扫码测试你的职场人格', 80, 1200);
-                
-                ctx.fillStyle = '#64748b';
-                ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
-                ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1240);
-            };
-            qrImg.src = 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776772673333_qrcode.png';
+            // 绘制链接文字
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('长按识别二维码或访问链接', 375, 1190);
+            
+            // 绘制链接地址
+            ctx.fillStyle = '#d97706';
+            ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('littlebee-test.github.io/career-test', 375, 1240);
+            
+            // 生成真实二维码
+            generateRealQR(ctx, 520, 1155, 130, window.location.href);
             
             // 显示弹窗
             document.getElementById('posterModal').classList.add('show');
+        }
+
+        // 生成真实二维码（使用 QRCode.js）
+        function generateRealQR(ctx, x, y, size, text) {
+            // 创建临时 div 用于生成二维码
+            const tempDiv = document.createElement('div');
+            tempDiv.style.position = 'absolute';
+            tempDiv.style.left = '-9999px';
+            document.body.appendChild(tempDiv);
+            
+            // 使用 QRCode.js 生成
+            const qrcode = new QRCode(tempDiv, {
+                text: text,
+                width: size,
+                height: size,
+                colorDark: '#1e293b',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
+            });
+            
+            // 等待二维码生成完成
+            setTimeout(function() {
+                const qrImg = tempDiv.querySelector('img');
+                if (qrImg) {
+                    ctx.drawImage(qrImg, x, y, size, size);
+                }
+                document.body.removeChild(tempDiv);
+            }, 100);
         }
 
         // 文字换行
