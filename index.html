@@ -1020,6 +1020,9 @@
 
         // 生成真实二维码（使用 QRCode.js）
         function generateRealQR(ctx, x, y, size, text) {
+            // 使用固定的 GitHub Pages 链接
+            const qrUrl = 'https://littlebee-test.github.io/career-test';
+            
             // 创建临时 div 用于生成二维码
             const tempDiv = document.createElement('div');
             tempDiv.style.position = 'absolute';
@@ -1028,22 +1031,31 @@
             
             // 使用 QRCode.js 生成
             const qrcode = new QRCode(tempDiv, {
-                text: text,
-                width: size,
-                height: size,
+                text: qrUrl,
+                width: size * 2,
+                height: size * 2,
                 colorDark: '#1e293b',
                 colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.M
+                correctLevel: QRCode.CorrectLevel.H
             });
             
-            // 等待二维码生成完成
+            // 等待二维码生成完成并绘制
             setTimeout(function() {
                 const qrImg = tempDiv.querySelector('img');
-                if (qrImg) {
+                if (qrImg && qrImg.complete) {
                     ctx.drawImage(qrImg, x, y, size, size);
+                } else if (qrImg) {
+                    qrImg.onload = function() {
+                        ctx.drawImage(qrImg, x, y, size, size);
+                    };
                 }
-                document.body.removeChild(tempDiv);
-            }, 100);
+                // 清理
+                setTimeout(function() {
+                    if (tempDiv.parentNode) {
+                        document.body.removeChild(tempDiv);
+                    }
+                }, 500);
+            }, 200);
         }
 
         // 文字换行
