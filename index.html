@@ -622,6 +622,9 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             overflow: hidden;
             background: white;
+            -webkit-touch-callout: default;
+            -webkit-user-select: auto;
+            user-select: auto;
         }
 
         #posterImage {
@@ -631,19 +634,16 @@
             -webkit-touch-callout: default;
             -webkit-user-select: auto;
             user-select: auto;
+            pointer-events: auto;
         }
 
         #posterCanvas {
             display: none;
         }
 
+        /* 旧的poster-wrapper样式已废弃，现在使用poster-image-container */
         .poster-wrapper {
-            position: relative;
-            width: 375px;
-            height: 600px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: none;
         }
 
 
@@ -763,9 +763,10 @@
     <div class="poster-modal" id="posterModal">
         <div class="poster-content">
             <div class="poster-close" id="posterClose">✕</div>
-            <div class="poster-wrapper" id="posterWrapper">
-                <canvas id="posterCanvas" width="750" height="1200"></canvas>
+            <div class="poster-image-container" id="posterImageContainer">
+                <img id="posterImage" src="" alt="职场人格测试结果">
             </div>
+            <canvas id="posterCanvas" width="750" height="1200" style="display:none;"></canvas>
             <div class="poster-tip">👆 长按上方海报保存到相册</div>
         </div>
     </div>
@@ -1255,17 +1256,8 @@
 
         // 显示海报弹窗
         function showPosterModal(canvasDataURL) {
-            const wrapper = document.getElementById('posterWrapper');
-
-            // 重置 wrapper 样式
-            wrapper.style.backgroundImage = 'url(' + canvasDataURL + ')';
-            wrapper.style.backgroundSize = '375px 600px';
-            wrapper.style.backgroundRepeat = 'no-repeat';
-            wrapper.style.backgroundPosition = 'center';
-            wrapper.style.width = '375px';
-            wrapper.style.height = '600px';
-            wrapper.style.position = 'relative';
-            wrapper.style.backgroundColor = 'transparent';
+            const img = document.getElementById('posterImage');
+            img.src = canvasDataURL;
 
             // 显示弹窗
             document.getElementById('posterModal').classList.add('show');
