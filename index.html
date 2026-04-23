@@ -10,42 +10,30 @@
     <meta property="og:title" content="大学生职场人格测试">
     <meta property="og:description" content="16种职场归宿，你的命中注定是？">
     <meta property="og:image" content="https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png">
-    <!-- 引入 QRCode.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
-        
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         :root {
             --primary: #f59e0b;
             --primary-dark: #d97706;
-            --primary-light: #fbbf24;
-            --secondary: #f97316;
-            --accent: #fb923c;
+            --secondary: #fbbf24;
+            --accent: #f97316;
             --bg: #fffbeb;
             --card: #ffffff;
             --text: #1e293b;
             --text-secondary: #64748b;
-            --text-light: #94a3b8;
             --border: #fde68a;
-            --shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.15), 0 2px 4px -1px rgba(245, 158, 11, 0.1);
-            --shadow-lg: 0 20px 25px -5px rgba(245, 158, 11, 0.2), 0 10px 10px -5px rgba(245, 158, 11, 0.15);
-            --radius: 16px;
-            --radius-lg: 24px;
         }
         
         html { font-size: 16px; }
         
         body {
-            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             background: var(--bg);
             min-height: 100vh;
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
         
         .page {
@@ -57,128 +45,70 @@
         
         /* 首页 */
         .home-page {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #f97316 100%);
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
             align-items: center;
             justify-content: center;
             padding: 2rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .home-page::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: float 20s linear infinite;
-        }
-        
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
         }
         
         .home-content {
             max-width: 400px;
-            position: relative;
-            z-index: 1;
         }
         
         .home-icon {
-            font-size: 6rem;
+            font-size: 5rem;
             margin-bottom: 1.5rem;
-            animation: bounce 2s ease infinite;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
         }
         
         .home-title {
-            font-size: 2.5rem;
-            font-weight: 900;
+            font-size: 2rem;
+            font-weight: 700;
             color: white;
             margin-bottom: 0.75rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            letter-spacing: -0.02em;
         }
         
         .home-subtitle {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.95);
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
             margin-bottom: 2.5rem;
-            font-weight: 500;
-            line-height: 1.5;
         }
         
         .start-btn {
-            background: linear-gradient(135deg, #fff 0%, #fffbeb 100%);
+            background: white;
             color: #d97706;
             border: none;
-            padding: 1.2rem 3rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: var(--radius-lg);
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
             cursor: pointer;
             width: 100%;
             max-width: 280px;
             -webkit-appearance: none;
             appearance: none;
-            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .start-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s;
-        }
-        
-        .start-btn:hover::before {
-            left: 100%;
-        }
-        
-        .start-btn:active {
-            transform: scale(0.98);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
         }
         
         .home-stats {
             display: flex;
             justify-content: center;
             gap: 2rem;
-            margin-top: 2.5rem;
-            color: rgba(255,255,255,0.9);
+            margin-top: 2rem;
+            color: rgba(255,255,255,0.8);
             font-size: 0.875rem;
         }
         
         /* 答题页 */
-        .test-page { 
-            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-        }
+        .test-page { background: var(--bg); }
         
         .test-header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1.25rem;
+            background: white;
+            padding: 1rem 1.25rem;
             position: sticky;
             top: 0;
             z-index: 10;
-            box-shadow: var(--shadow);
-            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
         .progress-info {
@@ -188,28 +118,25 @@
             margin-bottom: 0.75rem;
             font-size: 0.875rem;
             color: var(--text-secondary);
-            font-weight: 500;
         }
         
         .progress-bar {
-            height: 8px;
+            height: 6px;
             background: var(--border);
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 4px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+            transition: width 0.3s ease;
         }
         
         .test-content {
             flex: 1;
-            padding: 2rem 1.25rem;
+            padding: 1.5rem 1.25rem;
             max-width: 600px;
             margin: 0 auto;
             width: 100%;
@@ -217,85 +144,71 @@
         
         .question-card {
             background: white;
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 1rem;
         }
         
         .question-number {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
         }
         
         .question-text {
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-size: 1.125rem;
+            font-weight: 600;
             color: var(--text);
-            line-height: 1.5;
-            letter-spacing: -0.01em;
+            line-height: 1.6;
         }
         
         .options-list {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
         }
         
         .option-item {
             background: white;
             border: 2px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem;
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            font-size: 1rem;
-            font-weight: 500;
+            gap: 0.75rem;
+            font-size: 0.95rem;
             -webkit-appearance: none;
             appearance: none;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow);
-        }
-        
-        .option-item:active {
-            transform: scale(0.98);
         }
         
         .option-item.selected {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(245,158,11,0.1));
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+            background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(236,72,153,0.08));
         }
         
         .option-radio {
-            width: 24px;
-            height: 24px;
-            border: 2.5px solid var(--border);
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
             border-radius: 50%;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
         }
         
         .option-item.selected .option-radio {
             border-color: var(--primary);
             background: var(--primary);
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
         }
         
         .option-radio::after {
             content: '';
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: white;
             border-radius: 50%;
             display: none;
@@ -306,132 +219,90 @@
         .test-nav {
             display: flex;
             gap: 1rem;
-            padding: 1.25rem;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            padding: 1rem 1.25rem;
+            background: white;
             border-top: 1px solid var(--border);
         }
         
         .nav-btn {
             flex: 1;
-            padding: 1rem;
-            border-radius: var(--radius);
+            padding: 0.875rem;
+            border-radius: 12px;
             border: none;
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
             -webkit-appearance: none;
             appearance: none;
-            transition: all 0.2s ease;
         }
         
         .nav-btn.prev {
             background: var(--bg);
             color: var(--text-secondary);
-            border: 2px solid var(--border);
-        }
-        
-        .nav-btn.prev:active {
-            background: var(--border);
         }
         
         .nav-btn.next {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            background: linear-gradient(135deg, #f59e0b, #f97316);
             color: white;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
-        
-        .nav-btn.next:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
         }
         
         .nav-btn:disabled {
             opacity: 0.5;
-            cursor: not-allowed;
         }
         
         /* 结果页 */
-        .result-page { 
-            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-        }
+        .result-page { background: var(--bg); }
         
         .result-header {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #f97316 100%);
-            padding: 3rem 1.5rem;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            padding: 2.5rem 1.5rem;
             text-align: center;
             color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .result-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.5;
         }
         
         .result-emoji {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            font-size: 4rem;
+            margin-bottom: 0.75rem;
         }
         
         .result-label {
             font-size: 0.875rem;
-            opacity: 0.95;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            opacity: 0.9;
+            margin-bottom: 0.25rem;
         }
         
         .result-type {
-            font-size: 2rem;
-            font-weight: 900;
-            margin-bottom: 0.75rem;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            letter-spacing: -0.02em;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fffbeb;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .result-match {
-            font-size: 1.125rem;
-            opacity: 0.95;
-            font-weight: 600;
+            font-size: 1rem;
+            opacity: 0.9;
         }
         
         .result-content {
-            padding: 2rem 1.5rem;
+            padding: 1.5rem;
             max-width: 600px;
             margin: 0 auto;
         }
         
         .result-card {
             background: white;
-            border-radius: var(--radius-lg);
-            padding: 1.75rem;
-            margin-bottom: 1.25rem;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
         
         .result-card-title {
-            font-size: 1.125rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--text);
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -468,19 +339,17 @@
             margin-top: 1rem;
         }
         
-        .job-btn, .poster-btn, .share-btn {
+        .job-btn, .poster-btn {
             width: 100%;
-            max-width: 300px;
-            padding: 1rem 2rem;
-            border-radius: 50px;
+            padding: 0.875rem;
+            border-radius: 12px;
             border: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             -webkit-appearance: none;
             appearance: none;
-            transition: all 0.3s ease;
         }
         
         .job-btn {
@@ -489,37 +358,32 @@
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
         }
         
-        .job-btn:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
-        }
-        
-        .share-btn {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            color: white;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-        }
-        
-        .share-btn:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
-        }
-        
         .poster-btn {
             background: white;
             color: #d97706;
             border: 2px solid #fbbf24;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.1);
-        }
-        
-        .poster-btn:active {
-            transform: scale(0.98);
-            background: #fffbeb;
         }
         
         .share-section {
             padding: 1.5rem;
             text-align: center;
+        }
+        
+        .share-btn {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 1rem;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
         }
         
         .restart-link {
@@ -615,52 +479,11 @@
             cursor: pointer;
         }
         
-        .poster-image-container {
-            max-width: 100%;
-            max-height: 70vh;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            overflow: hidden;
-            background: white;
-        }
-        
-        #posterImage {
-            max-width: 100%;
-            max-height: 70vh;
-            display: block;
-            -webkit-touch-callout: default;
-            -webkit-user-select: auto;
-            user-select: auto;
-        }
-        
         #posterCanvas {
-            display: none;
-        }
-        
-        .poster-wrapper {
-            position: relative;
-            width: 375px;
-            height: 600px;
+            max-width: 100%;
+            max-height: 70vh;
             border-radius: 12px;
-            overflow: hidden;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-        
-        .poster-qr-container {
-            position: absolute;
-            right: 25px;
-            bottom: 25px;
-            width: 65px;
-            height: 65px;
-            background: white;
-            padding: 2px;
-            border-radius: 4px;
-        }
-        
-        .poster-qr-container img {
-            width: 100%;
-            height: 100%;
-            display: block;
         }
         
         .poster-tip {
@@ -668,11 +491,19 @@
             color: white;
             font-size: 0.875rem;
             text-align: center;
-            font-weight: 500;
         }
         
         .save-btn {
-            display: none;
+            margin-top: 1rem;
+            background: white;
+            color: #d97706;
+            border: none;
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            -webkit-appearance: none;
             appearance: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
@@ -742,13 +573,13 @@
         
         <div class="result-content">
             <div class="result-card">
-                <div class="result-card-title">📝 人格特征</div>
+                <div class="result-card-title">📝 性格特征</div>
                 <div class="result-desc" id="resultDesc">...</div>
                 <div class="destiny-tags" id="destinyTags"></div>
             </div>
             
             <div class="result-card">
-                <div class="result-card-title">💼 职场宣言</div>
+                <div class="result-card-title">💡 核心梗</div>
                 <div class="result-desc" id="resultMeme">...</div>
             </div>
             
@@ -756,12 +587,16 @@
                 <div class="result-card-title">⚠️ 不适合</div>
                 <div class="unsuitable" id="resultUnsuitable">...</div>
             </div>
+
+            <div class="result-card">
+                <div class="result-card-title">🎯 互动</div>
+                <button class="job-btn" id="jobBtn">查看适合自己的岗位</button>
+                <button class="poster-btn" id="posterBtn">生成结果海报</button>
+            </div>
         </div>
         
         <div class="share-section">
-            <button class="job-btn" id="jobBtn">🔍 这些岗位适合你</button>
-            <button class="share-btn" id="shareBtn">📤 分享给其他求职er</button>
-            <button class="poster-btn" id="posterBtn">🖼️ 生成结果海报</button>
+            <button class="share-btn" id="shareBtn">分享给朋友</button>
             <a href="#" class="restart-link" id="restartLink">重新测试</a>
         </div>
         
@@ -772,11 +607,9 @@
     <div class="poster-modal" id="posterModal">
         <div class="poster-content">
             <div class="poster-close" id="posterClose">✕</div>
-            <div class="poster-wrapper" id="posterWrapper">
-                <canvas id="posterCanvas" width="750" height="1200"></canvas>
-                <div class="poster-qr-container" id="posterQRContainer"></div>
-            </div>
-            <div class="poster-tip">👆 长按上方海报保存到相册</div>
+            <canvas id="posterCanvas" width="750" height="1334"></canvas>
+            <div class="poster-tip">长按保存图片，分享给朋友</div>
+            <button class="save-btn" id="saveBtn">保存图片到相册</button>
         </div>
     </div>
 
@@ -1007,8 +840,6 @@
 
         // 生成海报
         document.getElementById('posterBtn').addEventListener('click', function() {
-            console.log('海报按钮被点击');
-            console.log('currentResultData:', currentResultData);
             generatePoster();
         });
 
@@ -1017,6 +848,31 @@
             document.getElementById('posterModal').classList.remove('show');
         });
 
+        // 保存图片
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            const canvas = document.getElementById('posterCanvas');
+            
+            // 将 canvas 转为图片数据
+            const dataURL = canvas.toDataURL('image/png');
+            
+            // 尝试使用微信下载
+            if (typeof wx !== 'undefined' && wx.downloadImage) {
+                wx.downloadImage({
+                    url: dataURL,
+                    success: function() {
+                        alert('图片已保存到相册');
+                    },
+                    fail: function() {
+                        // 失败时尝试自动下载
+                        downloadImage(dataURL);
+                    }
+                });
+            } else {
+                // 非微信环境，直接下载
+                downloadImage(dataURL);
+            }
+        });
+        
         // 下载图片函数
         function downloadImage(dataURL) {
             // 创建临时链接
@@ -1028,29 +884,19 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            
+            // 微信环境提示
+            if (/MicroMessenger/i.test(navigator.userAgent)) {
+                alert('如果下载失败，请长按海报图片保存');
+            }
         }
 
         // 生成海报图片
         function generatePoster() {
-            console.log('generatePoster 被调用');
-            if (!currentResultData) {
-                console.log('错误：currentResultData 为空');
-                return;
-            }
-            
-            console.log('开始生成海报，数据：', currentResultData);
+            if (!currentResultData) return;
             
             const canvas = document.getElementById('posterCanvas');
-            if (!canvas) {
-                console.log('错误：找不到 canvas 元素');
-                return;
-            }
-            
             const ctx = canvas.getContext('2d');
-            if (!ctx) {
-                console.log('错误：无法获取 canvas context');
-                return;
-            }
             
             // 背景渐变（黄色系）
             const gradient = ctx.createLinearGradient(0, 0, 750, 1334);
@@ -1104,99 +950,57 @@
             ctx.lineTo(650, 630);
             ctx.stroke();
             
-            // 人格特征
+            // 性格特征
             ctx.fillStyle = '#64748b';
             ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.textAlign = 'left';
             wrapText(ctx, currentResultData.desc, 100, 690, 550, 45);
             
-            // 职场宣言
+            // 核心梗
             const memeY = 850;
             ctx.fillStyle = '#d97706';
             ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('💼 职场宣言', 100, memeY);
+            ctx.fillText('💡 核心梗', 100, memeY);
             ctx.fillStyle = '#64748b';
             ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.fillText(currentResultData.meme, 100, memeY + 50);
             
-            // 不适合 - 动态计算位置
+            // 不适合
+            const unsuitableY = 980;
             ctx.fillStyle = '#f59e0b';
             ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('⚠️ 不适合', 100, 950);
+            ctx.fillText('⚠️ 不适合', 100, unsuitableY);
             ctx.fillStyle = '#92400e';
             ctx.font = '26px -apple-system, BlinkMacSystemFont, sans-serif';
-            // 限制不适合文案只显示一行，避免过长
-            let unsuitableText = currentResultData.unsuitable;
-            if (unsuitableText.length > 20) {
-                unsuitableText = unsuitableText.substring(0, 20) + '...';
-            }
-            ctx.fillText(unsuitableText, 100, 995);
+            wrapText(ctx, currentResultData.unsuitable, 100, unsuitableY + 45, 550, 40);
             
-            // 底部二维码区域 - 固定位置，确保不被截断
+            // 底部二维码区域
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.beginPath();
-            ctx.roundRect(50, 1070, 650, 140, 20);
+            ctx.roundRect(50, 1140, 650, 160, 20);
             ctx.fill();
             
-            // 左侧文案
-            ctx.fillStyle = '#1e293b';
-            ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.textAlign = 'left';
-            ctx.fillText('扫码测试你的职场人格', 80, 1130);
-            
-            ctx.fillStyle = '#64748b';
-            ctx.font = '22px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1170);
-            
-            // 右侧二维码区域（先留白，后面叠加真实二维码）
-            ctx.fillStyle = 'white';
-            ctx.fillRect(520, 1085, 120, 120);
-            
-            // 转换 canvas 为图片
-            console.log('开始转换 canvas 为图片');
-            const dataURL = canvas.toDataURL('image/png');
-            
-            // 创建完整海报（canvas + 二维码）
-            createFinalPoster(dataURL, currentResultData);
-        }
-        
-        // 创建最终海报（canvas图片 + 真实二维码）
-        function createFinalPoster(canvasDataURL, resultData) {
-            const wrapper = document.getElementById('posterWrapper');
-            const qrContainer = document.getElementById('posterQRContainer');
-            
-            // 清空之前的内容
-            qrContainer.innerHTML = '';
-            
-            // 设置背景图片
-            wrapper.style.backgroundImage = 'url(' + canvasDataURL + ')';
-            wrapper.style.backgroundSize = 'contain';
-            wrapper.style.backgroundRepeat = 'no-repeat';
-            wrapper.style.width = '375px';
-            wrapper.style.height = '600px';
-            wrapper.style.position = 'relative';
-            
-            // 生成真实二维码
-            const qrUrl = 'https://littlebee-test.github.io/career-test';
-            new QRCode(qrContainer, {
-                text: qrUrl,
-                width: 130,
-                height: 130,
-                colorDark: '#1e293b',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.H
-            });
-            
-            // 设置二维码位置（对应canvas中的位置）
-            qrContainer.style.position = 'absolute';
-            qrContainer.style.right = '28px';
-            qrContainer.style.bottom = '28px';
-            qrContainer.style.width = '60px';
-            qrContainer.style.height = '60px';
+            // 加载并绘制二维码
+            const qrImg = new Image();
+            qrImg.crossOrigin = 'anonymous';
+            qrImg.onload = function() {
+                // 绘制二维码（右侧）
+                ctx.drawImage(qrImg, 520, 1155, 130, 130);
+                
+                // 文字（左侧）
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('扫码测试你的职场人格', 80, 1200);
+                
+                ctx.fillStyle = '#64748b';
+                ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1240);
+            };
+            qrImg.src = 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776772673333_qrcode.png';
             
             // 显示弹窗
             document.getElementById('posterModal').classList.add('show');
-            console.log('弹窗已显示');
         }
 
         // 文字换行
@@ -1227,15 +1031,9 @@
         function updateShareCard(type, match) {
             currentResult = { type: type, match: match };
             
-            // 使用固定的 GitHub Pages 链接（不带参数，避免缓存问题）
-            const shareUrl = 'https://littlebee-test.github.io/career-test';
-            
             // 更新 meta 标签（用于微信分享）
             const desc = '我的职场人格是【' + type + '】，' + match + '！16种职场归宿，你的命中注定是？';
             document.querySelector('meta[name="description"]').setAttribute('content', desc);
-            
-            // 更新标题
-            document.title = '我的职场人格是【' + type + '】- 大学生职场人格测试';
             
             // 尝试调用微信 JS-SDK
             if (typeof wx !== 'undefined' && wx.ready) {
@@ -1243,42 +1041,36 @@
                     wx.updateAppMessageShareData({
                         title: '我的职场人格是【' + type + '】',
                         desc: match + '，快来测测你的职场归宿！',
-                        link: shareUrl,
+                        link: window.location.href,
                         imgUrl: 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png',
-                        success: function() {
-                            console.log('微信分享配置成功');
-                        }
+                        success: function() {}
                     });
                     wx.updateTimelineShareData({
                         title: '我的职场人格是【' + type + '】-' + match,
-                        link: shareUrl,
+                        link: window.location.href,
                         imgUrl: 'https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png',
-                        success: function() {
-                            console.log('朋友圈分享配置成功');
-                        }
+                        success: function() {}
                     });
                 });
             }
-            
-            console.log('分享卡片已更新:', { type, match, url: shareUrl });
         }
         
         // 分享按钮
         document.getElementById('shareBtn').addEventListener('click', function() {
             const type = document.getElementById('resultType').textContent;
             const match = document.getElementById('resultMatch').textContent;
-            const text = '我的职场人格是【' + type + '】，' + match + '！16种职场归宿，你的命中注定是？';
+            const text = '我的职场人格是【' + type + '】，' + match + '！快来测测你的吧~';
             
             // 调用微信分享（如果在微信内）
-            if (/MicroMessenger/i.test(navigator.userAgent)) {
+            if (typeof wx !== 'undefined') {
                 // 显示引导提示
                 showShareGuide();
             } else if (navigator.share) {
-                navigator.share({ title: '我的职场人格是【' + type + '】', text: text, url: 'https://littlebee-test.github.io/career-test' });
+                navigator.share({ title: '大学生职场人格测试', text: text, url: window.location.href });
             } else {
                 // 复制到剪贴板
                 const input = document.createElement('input');
-                input.value = text + ' https://littlebee-test.github.io/career-test';
+                input.value = text + ' ' + window.location.href;
                 document.body.appendChild(input);
                 input.select();
                 document.execCommand('copy');
@@ -1301,7 +1093,6 @@
         // 重新测试
         document.getElementById('restartLink').addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('重新测试按钮被点击');
             currentQuestion = 0;
             answers = [];
             typeScores = {};
