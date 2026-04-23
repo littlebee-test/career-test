@@ -662,6 +662,133 @@
             font-weight: 500;
         }
 
+        /* 分享弹窗样式 */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .share-modal.show {
+            display: flex;
+        }
+
+        .share-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 400px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideUp 0.3s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .share-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 32px;
+            height: 32px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #64748b;
+        }
+
+        .share-modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .share-image-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 1.5rem;
+            -webkit-touch-callout: default;
+            -webkit-user-select: auto;
+            user-select: auto;
+        }
+
+        .share-image {
+            width: 100%;
+            display: block;
+            -webkit-touch-callout: default;
+            -webkit-user-select: auto;
+            user-select: auto;
+        }
+
+        .share-text-container {
+            margin-bottom: 1rem;
+        }
+
+        .share-text {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: #334155;
+            resize: none;
+            font-family: inherit;
+            background: #f8fafc;
+        }
+
+        .copy-text-btn {
+            width: 100%;
+            padding: 0.875rem;
+            margin-top: 0.75rem;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-text-btn:active {
+            transform: scale(0.98);
+        }
+
+        .share-tip {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
         .save-btn {
             display: none;
             appearance: none;
@@ -751,8 +878,8 @@
 
         <div class="share-section">
             <button class="job-btn" id="jobBtn">🔍 这些岗位适合你</button>
-            <button class="share-btn" id="shareBtn">📤 分享给其他求职er</button>
             <button class="poster-btn" id="posterBtn">🖼️ 生成结果海报</button>
+            <button class="share-btn" id="shareBtn">📤 分享给其他求职er</button>
             <a href="#" class="restart-link" id="restartLink">重新测试</a>
         </div>
 
@@ -1330,28 +1457,20 @@
             console.log('分享卡片已更新:', { type, match, url: shareUrl });
         }
 
-        // 分享按钮
+        // 分享按钮 - 生成分享图片和文案
         document.getElementById('shareBtn').addEventListener('click', function() {
             const type = document.getElementById('resultType').textContent;
             const match = document.getElementById('resultMatch').textContent;
-            const text = '我的职场人格是【' + type + '】,' + match + '!16种职场归宿,你的命中注定是?';
+            const emoji = document.getElementById('resultEmoji').textContent;
+            const meme = document.getElementById('resultMeme').textContent;
 
-            // 调用微信分享(如果在微信内)
-            if (/MicroMessenger/i.test(navigator.userAgent)) {
-                // 显示引导提示
-                showShareGuide();
-            } else if (navigator.share) {
-                navigator.share({ title: '我的职场人格是【' + type + '】', text: text, url: 'https://littlebee-test.github.io/career-test' });
-            } else {
-                // 复制到剪贴板
-                const input = document.createElement('input');
-                input.value = text + ' https://littlebee-test.github.io/career-test';
-                document.body.appendChild(input);
-                input.select();
-                document.execCommand('copy');
-                document.body.removeChild(input);
-                alert('结果已复制,快去分享给朋友吧!');
-            }
+            // 生成分享文案
+            const shareText = '我的职场归宿居然是这样！\n\n' + emoji + ' ' + type + '\n' + match + '\n\n💬 ' + meme + '\n\n👉 快来测测你的职场人格：https://littlebee-test.github.io/career-test';
+
+            // 生成分享图片
+            generateShareImage(emoji, type, match, meme, function(imageDataURL) {
+                showShareModal(shareText, imageDataURL);
+            });
         });
 
         // 显示分享引导
@@ -1375,6 +1494,143 @@
             currentResultData = null;
             showPage('homePage');
         });
+
+        // 生成分享图片（方形卡片样式）
+        function generateShareImage(emoji, type, match, meme, callback) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 600;
+            canvas.height = 600;
+            const ctx = canvas.getContext('2d');
+
+            // 背景渐变
+            const gradient = ctx.createLinearGradient(0, 0, 600, 600);
+            gradient.addColorStop(0, '#f59e0b');
+            gradient.addColorStop(1, '#f97316');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 600, 600);
+
+            // 装饰圆点
+            ctx.fillStyle = 'rgba(255,255,255,0.1)';
+            for (let i = 0; i < 30; i++) {
+                const x = Math.random() * 600;
+                const y = Math.random() * 600;
+                const r = Math.random() * 4 + 2;
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // 白色卡片
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.roundRect(40, 40, 520, 520, 24);
+            ctx.fill();
+
+            // 顶部标签
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('大学生职场人格测试', 300, 90);
+
+            // Emoji
+            ctx.font = '100px sans-serif';
+            ctx.fillText(emoji, 300, 180);
+
+            // 人格类型
+            ctx.fillStyle = '#d97706';
+            ctx.font = 'bold 44px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText(type, 300, 260);
+
+            // 匹配度
+            ctx.fillStyle = '#f97316';
+            ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText(match, 300, 310);
+
+            // 分隔线
+            ctx.strokeStyle = '#fde68a';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(100, 340);
+            ctx.lineTo(500, 340);
+            ctx.stroke();
+
+            // 职场宣言
+            ctx.fillStyle = '#64748b';
+            ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('💬 ' + meme, 300, 390);
+
+            // 底部提示
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '22px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('扫码测测你的职场归宿', 300, 480);
+
+            // 二维码区域（简化版）
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(420, 420, 100, 100);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(430, 430, 80, 80);
+            ctx.fillStyle = '#1e293b';
+            // 三个定位角
+            ctx.fillRect(435, 435, 20, 20);
+            ctx.fillRect(485, 435, 20, 20);
+            ctx.fillRect(435, 485, 20, 20);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(442, 442, 6, 6);
+            ctx.fillRect(492, 442, 6, 6);
+            ctx.fillRect(442, 492, 6, 6);
+
+            callback(canvas.toDataURL('image/png'));
+        }
+
+        // 显示分享弹窗
+        function showShareModal(shareText, imageDataURL) {
+            // 创建弹窗
+            const modal = document.createElement('div');
+            modal.className = 'share-modal';
+            modal.innerHTML = `
+                <div class="share-modal-content">
+                    <div class="share-modal-close">✕</div>
+                    <div class="share-modal-title">分享给好友</div>
+                    <div class="share-image-container">
+                        <img src="${imageDataURL}" alt="分享图片" class="share-image">
+                    </div>
+                    <div class="share-text-container">
+                        <textarea class="share-text" readonly>${shareText}</textarea>
+                        <button class="copy-text-btn">📋 复制文案</button>
+                    </div>
+                    <div class="share-tip">长按上方图片保存，或复制文案分享</div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            // 关闭按钮
+            modal.querySelector('.share-modal-close').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+
+            // 点击背景关闭
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+
+            // 复制文案按钮
+            modal.querySelector('.copy-text-btn').addEventListener('click', function() {
+                const textarea = modal.querySelector('.share-text');
+                textarea.select();
+                document.execCommand('copy');
+                this.textContent = '✅ 已复制';
+                setTimeout(() => {
+                    this.textContent = '📋 复制文案';
+                }, 2000);
+            });
+
+            // 显示弹窗
+            requestAnimationFrame(() => {
+                modal.classList.add('show');
+            });
+        }
     </script>
 </body>
 </html>
