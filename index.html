@@ -797,6 +797,63 @@
             margin-top: 0.5rem;
         }
 
+        /* 微信分享引导 */
+        .share-guide {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .share-guide-content {
+            text-align: center;
+            color: white;
+        }
+
+        .share-guide-arrow {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounceArrow 1s ease infinite;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .share-guide-text {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .share-guide-subtext {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .share-guide-tip {
+            font-size: 0.9375rem;
+            opacity: 0.7;
+            background: rgba(255,255,255,0.15);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+        }
+
         .save-btn {
             display: none;
             appearance: none;
@@ -1487,20 +1544,13 @@
             console.log('分享卡片已更新:', { type, match, url: shareUrl });
         }
 
-        // 分享按钮 - 生成分享图片和文案
+        // 分享按钮 - 引导分享到朋友圈
         document.getElementById('shareBtn').addEventListener('click', function() {
             const type = document.getElementById('resultType').textContent;
             const match = document.getElementById('resultMatch').textContent;
             const emoji = document.getElementById('resultEmoji').textContent;
             const meme = document.getElementById('resultMeme').textContent;
 
-            // 生成分享文案
-            const shareText = '我的职场归宿居然是这样！\n\n' + emoji + ' ' + type + '\n' + match + '\n\n💬 ' + meme + '\n\n👉 快来测测你的职场人格：https://littlebee-test.github.io/career-test';
-
-            // 生成分享图片
-            generateShareImage(emoji, type, match, meme, function(imageDataURL) {
-                showShareModal(shareText, imageDataURL);
-            });
             // 追踪分享事件
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'share', {
@@ -1508,13 +1558,31 @@
                     'event_label': type
                 });
             }
+
+            // 微信内显示引导提示
+            if (/MicroMessenger/i.test(navigator.userAgent)) {
+                showShareGuide();
+            } else {
+                // 非微信内显示分享弹窗
+                const shareText = '我的职场归宿居然是这样！\n\n' + emoji + ' ' + type + '\n' + match + '\n\n💬 ' + meme + '\n\n👉 快来测测你的职场人格：https://littlebee-test.github.io/career-test';
+                generateShareImage(emoji, type, match, meme, function(imageDataURL) {
+                    showShareModal(shareText, imageDataURL);
+                });
+            }
         });
 
-        // 显示分享引导
+        // 显示分享引导（微信内）
         function showShareGuide() {
             const guide = document.createElement('div');
-            guide.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:20%;color:white;';
-            guide.innerHTML = '<div style="font-size:1.5rem;margin-bottom:1rem;">👆 点击右上角分享</div><div style="font-size:1rem;opacity:0.8;">分享给好友或朋友圈</div><div style="margin-top:3rem;font-size:3rem;">☝️</div>';
+            guide.className = 'share-guide';
+            guide.innerHTML = `
+                <div class="share-guide-content">
+                    <div class="share-guide-arrow">☝️</div>
+                    <div class="share-guide-text">点击右上角</div>
+                    <div class="share-guide-subtext">分享给好友或朋友圈</div>
+                    <div class="share-guide-tip">测试结果已准备好，快去分享吧！</div>
+                </div>
+            `;
             guide.addEventListener('click', function() {
                 document.body.removeChild(guide);
             });
