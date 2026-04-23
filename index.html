@@ -494,25 +494,25 @@
             box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
         }
 
-        .share-btn {
+        .poster-btn {
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             color: white;
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
         }
 
-        .share-btn:active {
+        .poster-btn:active {
             transform: scale(0.98);
             box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
         }
 
-        .poster-btn {
+        .share-btn {
             background: white;
             color: #d97706;
             border: 2px solid #fbbf24;
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.1);
         }
 
-        .poster-btn:active {
+        .share-btn:active {
             transform: scale(0.98);
             background: #fffbeb;
         }
@@ -1227,35 +1227,35 @@
 
             // 人格特征标题
             ctx.fillStyle = '#d97706';
-            ctx.font = 'bold 30px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText('📝 人格特征', 100, 565);
             
             // 人格特征描述
             ctx.fillStyle = '#64748b';
-            ctx.font = '26px -apple-system, BlinkMacSystemFont, sans-serif';
-            const descEndY = wrapText(ctx, currentResultData.desc, 100, 600, 550, 38);
+            ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
+            const descEndY = wrapText(ctx, currentResultData.desc, 100, 600, 550, 40);
 
             // 职场宣言标题
             const memeTitleY = descEndY + 65;
             ctx.fillStyle = '#d97706';
-            ctx.font = 'bold 30px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.fillText('💼 职场宣言', 100, memeTitleY);
             
             // 职场宣言内容
             ctx.fillStyle = '#64748b';
-            ctx.font = '26px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText(currentResultData.meme, 100, memeTitleY + 40);
+            ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText(currentResultData.meme, 100, memeTitleY + 42);
 
             // 不适合标题
             const unsuitableTitleY = memeTitleY + 105;
             ctx.fillStyle = '#f59e0b';
-            ctx.font = 'bold 30px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.fillText('⚠️ 不适合', 100, unsuitableTitleY);
             
             // 不适合内容
             ctx.fillStyle = '#92400e';
-            ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.font = '26px -apple-system, BlinkMacSystemFont, sans-serif';
             let unsuitableText = currentResultData.unsuitable;
             // 自动换行处理，每行最多22个字符
             if (unsuitableText.length > 22) {
@@ -1264,10 +1264,10 @@
                     lines.push(unsuitableText.substring(i, i + 22));
                 }
                 lines.forEach((line, idx) => {
-                    ctx.fillText(line, 100, unsuitableTitleY + 38 + idx * 34);
+                    ctx.fillText(line, 100, unsuitableTitleY + 40 + idx * 36);
                 });
             } else {
-                ctx.fillText(unsuitableText, 100, unsuitableTitleY + 38);
+                ctx.fillText(unsuitableText, 100, unsuitableTitleY + 40);
             }
 
             // 绘制底部白色卡片（包含文案和二维码）
@@ -1299,13 +1299,13 @@
             const textCenterY = bottomCardY + bottomCardHeight / 2;
             
             ctx.fillStyle = '#1e293b';
-            ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.font = 'bold 30px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.textAlign = 'left';
-            ctx.fillText('扫码测试你的职场人格', 80, textCenterY - 5);
+            ctx.fillText('扫码测试你的职场人格', 80, textCenterY - 8);
 
             ctx.fillStyle = '#64748b';
-            ctx.font = '22px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('16种职场归宿，你的命中注定是？', 80, textCenterY + 25);
+            ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('16种职场归宿，你的命中注定是？', 80, textCenterY + 28);
             
             // 创建临时 div 来生成二维码
             const tempDiv = document.createElement('div');
