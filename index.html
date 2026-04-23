@@ -1205,36 +1205,36 @@
 
             // Emoji
             ctx.font = '100px sans-serif';
-            ctx.fillText(currentResultData.emoji, 375, 280);
+            ctx.fillText(currentResultData.emoji, 375, 250);
 
             // 人格类型
             ctx.fillStyle = '#d97706';
             ctx.font = 'bold 52px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText(currentResultData.name, 375, 390);
+            ctx.fillText(currentResultData.name, 375, 360);
 
             // 匹配度
             ctx.fillStyle = '#f97316';
             ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('匹配度 ' + currentResultData.match + '%', 375, 440);
+            ctx.fillText('匹配度 ' + currentResultData.match + '%', 375, 410);
 
             // 分隔线
             ctx.strokeStyle = '#e2e8f0';
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.moveTo(100, 470);
-            ctx.lineTo(650, 470);
+            ctx.moveTo(100, 440);
+            ctx.lineTo(650, 440);
             ctx.stroke();
 
             // 人格特征标题
             ctx.fillStyle = '#d97706';
             ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.textAlign = 'left';
-            ctx.fillText('📝 人格特征', 100, 515);
+            ctx.fillText('📝 人格特征', 100, 495);
             
             // 人格特征描述
             ctx.fillStyle = '#64748b';
             ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
-            const descEndY = wrapText(ctx, currentResultData.desc, 100, 550, 550, 40);
+            const descEndY = wrapText(ctx, currentResultData.desc, 100, 535, 550, 40);
 
             // 职场宣言标题
             const memeTitleY = descEndY + 65;
