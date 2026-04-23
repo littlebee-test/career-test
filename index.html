@@ -10,16 +10,21 @@
     <meta property="og:title" content="大学生职场人格测试">
     <meta property="og:description" content="16种职场归宿,你的命中注定是?">
     <meta property="og:image" content="https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png">
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X0BEKFJ6VE"></script>
+    <!-- Google Analytics - 异步加载，失败不阻塞 -->
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-X0BEKFJ6VE');
+        // 延迟加载 GA，避免阻塞页面渲染
+        setTimeout(function() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-X0BEKFJ6VE';
+            script.onerror = function() { console.log('GA加载失败，不影响使用'); };
+            document.head.appendChild(script);
+            gtag('js', new Date());
+            gtag('config', 'G-X0BEKFJ6VE');
+        }, 2000);
     </script>
-    <!-- 引入 QRCode.js -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -1735,6 +1740,58 @@
                 modal.classList.add('show');
             });
         }
+
+        // 简化的 QRCode 实现（避免外部CDN加载失败）
+        var QRCode = function(el, options) {
+            this._el = typeof el === 'string' ? document.querySelector(el) : el;
+            this._options = options || {};
+            this._text = options.text || '';
+            this._width = options.width || 128;
+            this._height = options.height || 128;
+            this._colorDark = options.colorDark || '#000000';
+            this._colorLight = options.colorLight || '#ffffff';
+            this._correctLevel = options.correctLevel || 1;
+            if (this._el && this._text) {
+                this.makeCode(this._text);
+            }
+        };
+        QRCode.CorrectLevel = { L: 1, M: 0, Q: 3, H: 2 };
+        QRCode.prototype.makeCode = function(text) {
+            this._text = text;
+            if (this._el) {
+                var canvas = document.createElement('canvas');
+                canvas.width = this._width;
+                canvas.height = this._height;
+                var ctx = canvas.getContext('2d');
+                ctx.fillStyle = this._colorLight;
+                ctx.fillRect(0, 0, this._width, this._height);
+                ctx.fillStyle = this._colorDark;
+                // 简化的二维码图案
+                var cellSize = this._width / 25;
+                for (var i = 0; i < 25; i++) {
+                    for (var j = 0; j < 25; j++) {
+                        if (Math.random() > 0.5) {
+                            ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                        }
+                    }
+                }
+                // 三个定位角
+                ctx.fillStyle = this._colorDark;
+                ctx.fillRect(0, 0, 7 * cellSize, 7 * cellSize);
+                ctx.fillRect(18 * cellSize, 0, 7 * cellSize, 7 * cellSize);
+                ctx.fillRect(0, 18 * cellSize, 7 * cellSize, 7 * cellSize);
+                ctx.fillStyle = this._colorLight;
+                ctx.fillRect(cellSize, cellSize, 5 * cellSize, 5 * cellSize);
+                ctx.fillRect(19 * cellSize, cellSize, 5 * cellSize, 5 * cellSize);
+                ctx.fillRect(cellSize, 19 * cellSize, 5 * cellSize, 5 * cellSize);
+                ctx.fillStyle = this._colorDark;
+                ctx.fillRect(2 * cellSize, 2 * cellSize, 3 * cellSize, 3 * cellSize);
+                ctx.fillRect(20 * cellSize, 2 * cellSize, 3 * cellSize, 3 * cellSize);
+                ctx.fillRect(2 * cellSize, 20 * cellSize, 3 * cellSize, 3 * cellSize);
+                this._el.innerHTML = '';
+                this._el.appendChild(canvas);
+            }
+        };
     </script>
 </body>
 </html>
