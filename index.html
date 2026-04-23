@@ -10,6 +10,14 @@
     <meta property="og:title" content="大学生职场人格测试">
     <meta property="og:description" content="16种职场归宿,你的命中注定是?">
     <meta property="og:image" content="https://mb-mlbclaw-pub.nos-jd.163yun.com/uploads/1776769875009_career-test-share.png">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X0BEKFJ6VE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-X0BEKFJ6VE');
+    </script>
     <!-- 引入 QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
@@ -975,6 +983,13 @@
             document.getElementById('totalNum').textContent = questions.length;
             showPage('testPage');
             renderQuestion();
+            // 追踪测试开始事件
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'start_test', {
+                    'event_category': 'engagement',
+                    'event_label': '开始测试'
+                });
+            }
         });
 
         // 渲染题目
@@ -1115,6 +1130,14 @@
             setTimeout(function() {
                 hideLoading();
                 showPage('resultPage');
+                // 追踪测试完成事件
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'complete_test', {
+                        'event_category': 'engagement',
+                        'event_label': result.name,
+                        'value': matchPercent
+                    });
+                }
             }, 1500);
         }
 
@@ -1128,6 +1151,13 @@
             console.log('海报按钮被点击');
             console.log('currentResultData:', currentResultData);
             generatePoster();
+            // 追踪生成海报事件
+            if (typeof gtag !== 'undefined' && currentResultData) {
+                gtag('event', 'generate_poster', {
+                    'event_category': 'engagement',
+                    'event_label': currentResultData.name
+                });
+            }
         });
 
         // 关闭海报
@@ -1471,6 +1501,13 @@
             generateShareImage(emoji, type, match, meme, function(imageDataURL) {
                 showShareModal(shareText, imageDataURL);
             });
+            // 追踪分享事件
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'share', {
+                    'event_category': 'engagement',
+                    'event_label': type
+                });
+            }
         });
 
         // 显示分享引导
