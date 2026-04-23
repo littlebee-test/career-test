@@ -1119,34 +1119,38 @@
             ctx.font = '28px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.fillText(currentResultData.meme, 100, memeY + 50);
             
-            // 不适合
-            const unsuitableY = 980;
+            // 不适合 - 动态计算位置
             ctx.fillStyle = '#f59e0b';
             ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('⚠️ 不适合', 100, unsuitableY);
+            ctx.fillText('⚠️ 不适合', 100, 950);
             ctx.fillStyle = '#92400e';
             ctx.font = '26px -apple-system, BlinkMacSystemFont, sans-serif';
-            wrapText(ctx, currentResultData.unsuitable, 100, unsuitableY + 45, 550, 40);
+            // 限制不适合文案只显示一行，避免过长
+            let unsuitableText = currentResultData.unsuitable;
+            if (unsuitableText.length > 20) {
+                unsuitableText = unsuitableText.substring(0, 20) + '...';
+            }
+            ctx.fillText(unsuitableText, 100, 995);
             
-            // 底部二维码区域
+            // 底部二维码区域 - 固定位置，确保不被截断
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.beginPath();
-            ctx.roundRect(50, 1140, 650, 160, 20);
+            ctx.roundRect(50, 1070, 650, 140, 20);
             ctx.fill();
             
             // 左侧文案
             ctx.fillStyle = '#1e293b';
-            ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.textAlign = 'left';
-            ctx.fillText('扫码测试你的职场人格', 80, 1200);
+            ctx.fillText('扫码测试你的职场人格', 80, 1130);
             
             ctx.fillStyle = '#64748b';
-            ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1240);
+            ctx.font = '22px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillText('16种职场归宿，你的命中注定是？', 80, 1170);
             
             // 右侧二维码区域（先留白，后面叠加真实二维码）
             ctx.fillStyle = 'white';
-            ctx.fillRect(520, 1155, 130, 130);
+            ctx.fillRect(520, 1085, 120, 120);
             
             // 转换 canvas 为图片
             console.log('开始转换 canvas 为图片');
@@ -1185,10 +1189,10 @@
             
             // 设置二维码位置（对应canvas中的位置）
             qrContainer.style.position = 'absolute';
-            qrContainer.style.right = '25px';
-            qrContainer.style.bottom = '25px';
-            qrContainer.style.width = '65px';
-            qrContainer.style.height = '65px';
+            qrContainer.style.right = '28px';
+            qrContainer.style.bottom = '28px';
+            qrContainer.style.width = '60px';
+            qrContainer.style.height = '60px';
             
             // 显示弹窗
             document.getElementById('posterModal').classList.add('show');
